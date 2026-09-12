@@ -1,15 +1,17 @@
 import os,sys
 import numpy as np, pandas as pd, matplotlib
 matplotlib.use("Agg"); import matplotlib.pyplot as plt
-plt.rcParams["svg.fonttype"]="none"      # keep text as editable <text> in the SVG
+# Ensure PDF renders text as TrueType (actual text boxes)
+matplotlib.rcParams['pdf.fonttype'] = 42
+
 PROJ="/Zulu/jordan/alcoholATAC"; L=f"{PROJ}/bensalcohol_out/loops"
 OUT=os.path.join(os.path.dirname(os.path.abspath(__file__)),"svg")
 os.makedirs(OUT,exist_ok=True)
-RED="#C44E52"; BLU="#4C72B0"; GRN="#238b45"; GRY="#999999"; ORA="#E1812C"
+BLU="#5a72ad"; RED="#ab5054"; PRP="#7d2c88"; GRY="#999999"; ORA="#E1812C"
 def save(fig,name):
     fig.savefig(f"{OUT}/{name}.svg",bbox_inches="tight")
     fig.savefig(f"{OUT}/{name}.png",dpi=200,bbox_inches="tight"); plt.close(fig)
-    print(f"  -> svg/{name}.svg")
+    fig.savefig(f"{OUT}/{name}.pdf")
 
 """Fig 5H - E-P contact change by CTCF/ZF5 class at the anchors.
 Writes BOTH the MA-normalised and the un-normalised version; the MA one matches 5G/5I.
@@ -18,7 +20,7 @@ D=pd.read_csv(f"{L}/ep_unbiased_MA.tsv",sep="\t")
 ORD=["GGG","GAT","otherCTCF","noCTCF"]; LAB=["GGG\nanchor","GAT\nanchor","other CTCF\nanchor","no CTCF"]
 def build(ce,cw,name,note):
     fig,ax=plt.subplots(figsize=(6.6,4.7)); w=.36
-    for i,(col,c,lab) in enumerate([(ce,RED,"EtOH / Ctl"),(cw,BLU,"Withdrawal / Ctl")]):
+    for i,(col,c,lab) in enumerate([(ce,RED,"EtOH / Ctl"),(cw,PRP,"Withdraw / Ctl")]):
         mu=[D.loc[D["ctcfcls"]==k,col].mean() for k in ORD]
         er=[1.96*D.loc[D["ctcfcls"]==k,col].sem() for k in ORD]
         ax.bar(np.arange(4)+(i-.5)*w,mu,w,yerr=er,capsize=4,color=c,label=lab,

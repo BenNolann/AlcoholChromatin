@@ -5,7 +5,9 @@ Inputs: loops/ctcf_anchor_annot.bed, humanZF/fc_table.tsv, loops/loop_table.tsv,
 import os,sys,collections
 import numpy as np, matplotlib
 matplotlib.use("Agg"); import matplotlib.pyplot as plt
-plt.rcParams["svg.fonttype"]="none"
+# Ensure PDF renders text as TrueType (actual text boxes)
+matplotlib.rcParams['pdf.fonttype'] = 42
+
 PROJ="/Zulu/jordan/alcoholATAC"; L=f"{PROJ}/bensalcohol_out/loops"; os.chdir(PROJ)
 OUT=os.path.join(os.path.dirname(os.path.abspath(__file__)),"svg"); os.makedirs(OUT,exist_ok=True)
 rng=np.random.default_rng(21); NPERM=20000
@@ -64,4 +66,6 @@ ax.set_ylabel("log2 enrichment as convergent loop anchor",fontsize=9)
 ax.set_title("GGG CTCF sites are depleted from loop anchors\n(matched on motif score $\\times$ occupancy)",fontsize=10)
 fig.savefig(f"{OUT}/Fig5F_anchor_depletion.svg",bbox_inches='tight')
 fig.savefig(f"{OUT}/Fig5F_anchor_depletion.png",dpi=200,bbox_inches='tight')
+fig.savefig(f"{OUT}/Fig5F_anchor_depletion.pdf")
+
 print("  -> svg/Fig5F_anchor_depletion.svg")

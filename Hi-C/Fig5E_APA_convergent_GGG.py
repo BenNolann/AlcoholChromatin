@@ -1,7 +1,8 @@
 import os,sys,pickle,collections
 import numpy as np, pandas as pd, matplotlib
 matplotlib.use("Agg"); import matplotlib.pyplot as plt
-plt.rcParams["svg.fonttype"]="none"
+# Ensure PDF renders text as TrueType (actual text boxes)
+matplotlib.rcParams['pdf.fonttype'] = 42
 PROJ="/Zulu/jordan/alcoholATAC"; L=f"{PROJ}/bensalcohol_out/loops"
 os.chdir(PROJ)
 HERE=os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0,HERE)
@@ -9,15 +10,17 @@ OUT=os.path.join(HERE,"svg"); os.makedirs(OUT,exist_ok=True)
 from matplotlib.gridspec import GridSpec
 from matplotlib.colors import LinearSegmentedColormap
 from bullseye import bullseye
-RED="#C44E52"; BLU="#4C72B0"; GRN="#238b45"; GRY="#999999"
+BLU="#5a72ad"; RED="#ab5054"; PRP="#7d2c88"; GRY="#999999"; ORA="#E1812C"
 W=10; FL=2000; NB=80
 COND=[("ctrl","Control"),("etoh","EtOH"),("with","Withdrawal")]
-COL={"Control":"#333333","EtOH":RED,"Withdrawal":BLU}
+COL={"Control":BLU,"EtOH":RED,"Withdrawal":PRP}
 STYLE={"Control":dict(lw=1.9,ls="-"),"EtOH":dict(lw=1.9,ls="-"),"Withdrawal":dict(lw=1.9,ls=(0,(4,2.2)))}
 BR=LinearSegmentedColormap.from_list("bright_red",[(1,1,1),(1,0,0)])
 def save(fig,name):
     fig.savefig(f"{OUT}/{name}.svg",bbox_inches="tight")
     fig.savefig(f"{OUT}/{name}.png",dpi=200,bbox_inches="tight"); plt.close(fig)
+    fig.savefig(f"{OUT}/{name}.pdf")
+
     print(f"  -> svg/{name}.svg")
 def apa_row(fig,gs,key,APA,label):
     MATS={c:APA[c][key][0]/max(APA[c][key][1],1) for c,_ in COND}

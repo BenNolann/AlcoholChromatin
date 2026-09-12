@@ -1,16 +1,18 @@
 import os,sys,pickle,collections
 import numpy as np, pandas as pd, matplotlib
 matplotlib.use("Agg"); import matplotlib.pyplot as plt
-plt.rcParams["svg.fonttype"]="none"
+# Ensure PDF renders text as TrueType (actual text boxes)
+matplotlib.rcParams['pdf.fonttype'] = 42
+
 PROJ="/Zulu/jordan/alcoholATAC"; L=f"{PROJ}/bensalcohol_out/loops"
 os.chdir(PROJ)
 OUT=os.path.join(os.path.dirname(os.path.abspath(__file__)),"svg"); os.makedirs(OUT,exist_ok=True)
 sys.path.insert(0,L)
-RED="#C44E52"; BLU="#4C72B0"; GRN="#238b45"; GRY="#999999"; ORA="#E1812C"
+BLU="#5a72ad"; RED="#ab5054"; PRP="#7d2c88"; GRY="#999999"; ORA="#E1812C"
 def save(fig,name):
     fig.savefig(f"{OUT}/{name}.svg",bbox_inches="tight")
     fig.savefig(f"{OUT}/{name}.png",dpi=200,bbox_inches="tight"); plt.close(fig)
-    print(f"  -> svg/{name}.svg")
+    fig.savefig(f"{OUT}/{name}.pdf")
 
 """Supplementary - saddle plots on the CRUSH axis and the raw GC axis (50-200 kb band).
 Input: loops/saddle_newcrush.pkl  (upstream/saddle2.py, built on the crush-rs 5 kb tracks)"""

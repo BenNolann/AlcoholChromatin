@@ -1,16 +1,18 @@
 import os,sys,pickle,collections
 import numpy as np, pandas as pd, matplotlib
 matplotlib.use("Agg"); import matplotlib.pyplot as plt
-plt.rcParams["svg.fonttype"]="none"
+# Ensure PDF renders text as TrueType (actual text boxes)
+matplotlib.rcParams['pdf.fonttype'] = 42
+
 PROJ="/Zulu/jordan/alcoholATAC"; L=f"{PROJ}/bensalcohol_out/loops"
 os.chdir(PROJ)
 OUT=os.path.join(os.path.dirname(os.path.abspath(__file__)),"svg"); os.makedirs(OUT,exist_ok=True)
 sys.path.insert(0,L)
-RED="#C44E52"; BLU="#4C72B0"; GRN="#238b45"; GRY="#999999"; ORA="#E1812C"
+BLU="#5a72ad"; RED="#ab5054"; PRP="#7d2c88"; GRY="#999999"; ORA="#E1812C"
 def save(fig,name):
     fig.savefig(f"{OUT}/{name}.svg",bbox_inches="tight")
     fig.savefig(f"{OUT}/{name}.png",dpi=200,bbox_inches="tight"); plt.close(fig)
-    print(f"  -> svg/{name}.svg")
+    fig.savefig(f"{OUT}/{name}.pdf")
 
 """Fig 5I - E-P contact change by gene trajectory class (MA-normalised) + guanine-gradient retention.
 Inputs: loops/ep_unbiased_MA.tsv, loops/genes_classed.tsv"""
