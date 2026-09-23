@@ -28,6 +28,8 @@ def apa_row(fig,gs,key,APA,label):
     for i,(c,lab) in enumerate(COND):
         ax=fig.add_subplot(gs[0,2*i:2*i+2],projection="polar")
         m=MATS[c]; sc=m[W-1:W+2,W-1:W+2].mean()/max(m[:5,-5:].mean(),1e-9)
+        print(vmin)
+        print(vmax)
         th,r,C,_=bullseye(m); ax.grid(False)
         ax.pcolormesh(th,r,C,cmap=BR,vmin=vmin,vmax=vmax,rasterized=True)
         ax.set_xticklabels([]); ax.set_yticklabels([]); ax.set_theta_offset(np.pi/2)

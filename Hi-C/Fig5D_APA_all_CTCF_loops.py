@@ -32,6 +32,8 @@ def apa_row(fig,gs,key,APA,label):
         m=MATS[c]; sc=m[W-1:W+2,W-1:W+2].mean()/max(m[:5,-5:].mean(),1e-9)
         th,r,C,_=bullseye(m); ax.grid(False)
         ax.pcolormesh(th,r,C,cmap=BR,vmin=vmin,vmax=vmax,rasterized=True)
+        print(vmin)
+        print(vmax)
         ax.set_xticklabels([]); ax.set_yticklabels([]); ax.set_theta_offset(np.pi/2)
         ax.spines["polar"].set_visible(False)
         ax.set_title(f"{lab}\nAPA={sc:.2f}",fontsize=10,pad=12)
@@ -63,3 +65,4 @@ for p in ("CTCF","RAD21"):
     c=NB//2; k={l:PROF[(p,l)][c-4:c+4].mean() for l in ("Control","EtOH","Withdrawal")}
     print(f"     {p:6s} ctrl={k['Control']:.3f}  etoh={k['EtOH']:.3f} ({100*(k['EtOH']/k['Control']-1):+.1f}%)"
           f"  with={k['Withdrawal']:.3f} ({100*(k['Withdrawal']/k['Control']-1):+.1f}%)")
+
